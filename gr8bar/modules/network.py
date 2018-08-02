@@ -3,7 +3,10 @@ from collections import namedtuple
 
 from PyQt5 import QtWidgets
 
-import tools
+try:
+    import tools
+except ModuleNotFoundError:
+    from gr8bar import tools
 
 Network = namedtuple('Network', ['ssid', 'signal', 'security'])
 NetPopup = namedtuple('NetPopup', ['window', 'layout', 'prompt'])

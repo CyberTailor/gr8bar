@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os
 import sys
 import threading
@@ -6,9 +8,14 @@ import types
 
 from PyQt5 import QtCore, QtWidgets
 
-from modules import sound, network, linux, gallium_os
-import ui
-import tools
+try:
+    from modules import sound, network, linux, gallium_os
+    import ui
+    import tools
+except ModuleNotFoundError:
+    from gr8bar.modules import sound, network, linux, gallium_os
+    from gr8bar import ui
+    from gr8bar import tools
 
 
 sys.path.append(os.path.dirname(sys.argv[1]))
@@ -65,7 +72,7 @@ def run_updater(updater, tools, modules, properties):
         time.sleep(updater[1])
 
 
-if __name__ == "__main__":
+def main():
     updaters = cfg.init_prop_updaters()
     for updater in updaters:
         threading.Thread(target=run_updater,
@@ -76,3 +83,7 @@ if __name__ == "__main__":
     render()
     window.show()
     app.exec_()
+
+
+if __name__ == "__main__":
+    main()

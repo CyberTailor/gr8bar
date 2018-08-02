@@ -1,4 +1,7 @@
-import tools
+try:
+    import tools
+except ModuleNotFoundError:
+    from gr8bar import tools
 
 
 def logout():

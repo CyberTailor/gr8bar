@@ -139,7 +139,7 @@ def add_slant(layout, slant_type, color):
     :param color: The hex-color that this slant should render as
     '''
     label = QtWidgets.QLabel()
-    pixmap = QtGui.QPixmap(res(__file__, '../res/slant-%s.svg') % (slant_type))
+    pixmap = QtGui.QPixmap(res(__file__, 'res/slant-%s.svg') % (slant_type))
     recolor_pixmap(pixmap, color)
     label.setPixmap(pixmap)
     label.setFixedWidth(pixmap.width())
