@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import functools
 import os
 import sys
 import threading
@@ -17,21 +18,12 @@ except ModuleNotFoundError:
     from gr8bar import ui
     from gr8bar import tools
 
-
-sys.path.append(os.path.dirname(sys.argv[1]))
-cfg = __import__(os.path.basename(sys.argv[1].replace('.py', '')))
-
 app = QtWidgets.QApplication([])
 
 window = QtWidgets.QWidget()
 window.setWindowFlags(QtCore.Qt.Dialog | QtCore.Qt.FramelessWindowHint |
                       QtCore.Qt.WindowStaysOnTopHint | QtCore.Qt.Tool |
                       QtCore.Qt.X11BypassWindowManagerHint)
-
-bounds = cfg.bounds()
-window.move(bounds['x'], bounds['y'])
-window.setFixedSize(bounds['w'] if 'w' in bounds else bounds['width'],
-                    bounds['h'] if 'h' in bounds else bounds['height'])
 
 window_layout = ui.hbox_layout(window)
 
@@ -45,7 +37,7 @@ data = types.SimpleNamespace(app=app, panel=window, layout=window_layout,
                              modules=modules)
 
 
-def render():
+def render(cfg):
     '''
     Renders the bar from the given configuration file
     '''
@@ -73,14 +65,22 @@ def run_updater(updater, tools, modules, properties):
 
 
 def main():
+    sys.path.append(os.path.dirname(sys.argv[1]))
+    cfg = __import__(os.path.basename(sys.argv[1].replace('.py', '')))
+
+    bounds = cfg.bounds()
+    window.move(bounds['x'], bounds['y'])
+    window.setFixedSize(bounds['w'] if 'w' in bounds else bounds['width'],
+                        bounds['h'] if 'h' in bounds else bounds['height'])
+
     updaters = cfg.init_prop_updaters()
     for updater in updaters:
         threading.Thread(target=run_updater,
                          args=(updater, tools, modules, properties,)).start()
     timer = QtCore.QTimer()
-    timer.timeout.connect(render)
+    timer.timeout.connect(functools.partial(render, cfg))
     timer.start(cfg.render_loop_delay())
-    render()
+    render(cfg)
     window.show()
     app.exec_()
 

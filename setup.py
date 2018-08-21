@@ -7,7 +7,7 @@ with open("README.md", "r") as readme:
 
 setuptools.setup(
     name="gr8bar",
-    version=0,
+    version=1,
 
     author="Tyler Sedlar",
     author_email="sedlarizona@gmail.com",
