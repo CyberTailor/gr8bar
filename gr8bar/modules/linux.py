@@ -1,3 +1,5 @@
+import json
+
 try:
     import tools
 except ModuleNotFoundError:
@@ -24,6 +26,13 @@ def get_cpu_temp():
     '''
     temp_str = tools.term('cat /sys/class/thermal/thermal_zone0/temp')
     return int((int(temp_str) if len(temp_str) else -1000) / 1000)
+
+
+def get_lm_sensors(chip):
+    '''
+    Gets lm_sensors data for given adapter
+    '''
+    return json.loads(tools.term('sensors -j'))[chip]
 
 
 def get_mem_used():
