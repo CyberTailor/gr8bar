@@ -39,8 +39,11 @@ data = types.SimpleNamespace(app=app, panel=window, layout=window_layout,
 
 def render(cfg):
     '''
-    Renders the bar from the given configuration file
+    Renders the bar from the given configuration file/function
     '''
+    if isinstance(cfg, types.FunctionType):
+        cfg = types.SimpleNamespace(config=cfg)
+
     ui.clear_layout(window_layout)
     cfg.config(data)
 
