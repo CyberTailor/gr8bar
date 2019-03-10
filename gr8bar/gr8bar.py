@@ -77,9 +77,12 @@ def main():
     for updater in updaters:
         threading.Thread(target=run_updater,
                          args=(updater, tools, modules, properties,)).start()
-    timer = QtCore.QTimer()
-    timer.timeout.connect(functools.partial(render, cfg))
-    timer.start(cfg.render_loop_delay())
+
+    delay = cfg.render_loop_delay()
+    if delay:
+        timer = QtCore.QTimer()
+        timer.timeout.connect(functools.partial(render, cfg))
+        timer.start(delay)
     render(cfg)
     window.show()
     app.exec_()
