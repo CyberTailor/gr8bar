@@ -1,9 +1,9 @@
 # gr8bar
 A cross-platform status bar made with Qt5
 
-![](res/md/example-bar.png)
-![](res/md/example-bar2.png)
-![](res/md/example-bar3.png)
+![](gr8bar/res/md/example-bar.png)
+![](gr8bar/res/md/example-bar2.png)
+![](gr8bar/res/md/example-bar3.png)
 
 ## Prerequisites 
 
@@ -16,7 +16,7 @@ pip3 install PyQt5
 You can try out by running:
 
 ```
-python3 ./src/gr8bar.by ./test/config.py
+python3 ./gr8bar/gr8bar.py ./test/config.py
 ```
 
 ## TODO
